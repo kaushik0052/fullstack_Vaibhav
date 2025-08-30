@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us, Movies & Cities</title>
+  <style>
+    /* ====== Global Styles ====== */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5; /* HEX */
+      color: rgb(33, 33, 33); /* RGB */
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: rgba(0, 128, 255, 0.8); /* RGBA */
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    section {
+      padding: 20px;
+      background: #fff;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* ====== CSS Selectors Demo ====== */
+    #main-heading {
+      font-size: 2rem;
+    }
+
+    .highlight {
+      color: hsl(120, 70%, 30%); /* HSL */
+      font-weight: bold;
+    }
+
+    a[target="_blank"] {
+      color: #ff6600;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: red;
+    }
+
+    p::first-letter {
+      font-size: 2rem;
+      color: #0077cc;
+    }
+
+
+    ul {
+      list-style-type: square;
+      font-size: 1.2rem;
+    }
+
+    .favorite {
+      color: #e91e63;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    ol {
+      font-size: 1.1rem;
+      padding-left: 20px;
+    }
+
+    ol li {
+      margin: 5px 0;
+      padding: 5px;
+      border-radius: 5px;
+      color: #333;
+    }
+
+    ol li:nth-child(1) { background-color: lightcoral; }
+    ol li:nth-child(2) { background-color: lightblue; }
+    ol li:nth-child(3) { background-color: lightgreen; }
+    ol li:nth-child(4) { background-color: lightgoldenrodyellow; }
+    ol li:nth-child(5) { background-color: plum; }
+
+    @media (max-width: 600px) {
+      section {
+        width: 95%;
+        margin: 10px auto;
+      }
+
+      header {
+        font-size: 1.2rem;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1 id="main-heading">About Our Company</h1>
+  </header>
+
+  <section>
+    <h2>Who We Are</h2>
+    <p>
+      We are a <span class="highlight">creative tech company</span> dedicated to building modern 
+      digital solutions. Our team is passionate about delivering quality and innovation.
+    </p>
+    <p>
+      Learn more about our work on 
+      <a href="https://example.com" target="_blank">our website</a>.
+    </p>
+  </section>
+  <section>
+    <h2>My Favorite Movies</h2>
+    <ul>
+      <li>Inception</li>
+      <li class="favorite">Interstellar</li>
+      <li>The Dark Knight</li>
+      <li>Avengers: Endgame</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Top 5 Cities to Visit</h2>
+    <ol>
+      <li>Paris</li>
+      <li>Tokyo</li>
+      <li>New York</li>
+      <li>London</li>
+      <li>Dubai</li>
+    </ol>
+  </section>
+</body>
+</html>
