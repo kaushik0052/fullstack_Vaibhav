@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+    body {
+      font-family: Arial;
+      margin: 20px;
+      max-width: 400px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border: 1px solid gray;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-top: 15px;
+      background-color: blue;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+
+    .success {
+      color: green;
+      font-size: 13px;
+    }
+  
+    </style>
+</head>
+<body>
+    <h2>Email &amp; Password Validation</h2>
+
+    <label>Email:</label>
+    <input type="text" id="emailInput" placeholder="Enter Email">
+    <p id="emailMessage" class="error"></p>
+
+    <label>Password:</label>
+    <input type="password" id="passwordInput" placeholder="Enter a password">
+    <p id="passwordMessage" class="error">
+        </p>
+
+    <button onclick="checkForm()">Submit</button>
+
+    <p id="finalMessage" class="error"></p>
+
+    <script>
+
+    
+    function checkEmail(emailValue) {
+        let pattern = /^[^ \s@]+@[^ \s@]+\.[^ \s@]+$/;
+        return pattern.test(emailValue);
+    }
+
+    
+    function checkPassword(passwordValue) {
+        let hasUpper = /[A-Z]/.test(passwordValue);
+        let hasLower = /[a-z]/.test(passwordValue);
+        let hasNumber = /[0-9]/.test(passwordValue);
+        let hasSymbol = /[^A-Za-z0-9]/.test(passwordValue);
+        let longEnough = passwordValue.length >= 8;
+
+        return hasUpper && hasLower && hasNumber && hasSymbol && longEnough;
+    }
+
+    function checkForm() {
+        let emailValue = document.getElementById("emailInput").value;
+        let passwordValue = document.getElementById("passwordInput").value;
+        let emailMessage = document.getElementById("emailMessage");
+        let passwordMessage = document.getElementById("passwordMessage");
+        let finalMessage = document.getElementById("finalMessage");
+
+        emailMessage.textContent = "";
+        passwordMessage.textContent = "";
+        finalMessage.textContent = "";
+
+        let allGood = true;
+
+        //Checking the email
+        if (!checkEmail(emailValue)) {
+        emailMessage.textContent = "Enter a valid email";
+        emailMessage.className = "error";
+        allGood = false;
+        } else {
+        emailMessage.textContent = "Email is valid";
+        emailMessage.className = "success";
+        }
+
+        //Password Check 
+        if (!checkPassword(passwordValue)) {
+
+        passwordMessage.innerHTML = `
+            Password must include:<br>
+            - 8 or more characters<br>
+            - One uppercase letter<br>
+            - One lowercase letter<br>
+            - One number<br>
+            - One symbol
+        `;
+
+        passwordMessage.className = "error";
+        allGood = false;
+
+        } else {
+        passwordMessage.textContent = "Strong password";
+        passwordMessage.className = "success";
+        }
+
+        if (allGood) {
+        finalMessage.textContent = "All good! Form is ready to submit.";
+        finalMessage.className = "success";
+        } else {
+        finalMessage.textContent = "Fix the errors above.";
+        finalMessage.className = "error";
+        }
+    }
+
+    </script>
+    
+</body>
+</html>

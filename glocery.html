@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input {
+            padding: 6px;
+            margin-right: 10px;
+        }
+        #itemsList {
+            margin-top: 20px;
+        }
+        .item {
+            margin: 5px 0;
+        }
+        #totalPrice {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Glocery Store</h2>
+    <input type="text" id="name" placeholder="Item Name">
+    <input type ="number" id="price" placeholder="Price">
+    <button onclick="addItem()">Add Item</button>
+
+    <ul id="itemList"></ul>
+
+    <p id="totalPrice"></p> 
+    
+    <script>
+        let items = [];
+        let total = 0;
+        function addItem(){
+            let itemName = document.getElementById("name").value;
+            let price = Number(document.getElementById("price").value);
+
+            items.push({itemName,price});
+
+            total=total+price;
+
+            display();
+            UpdateTotal();
+
+            document.getElementById("name").value = "";
+            document.getElementById("price").value = "";
+
+        }
+
+        function display(){
+            let list = document.getElementById("itemList");
+            list.innerHTML = "";
+
+            items.forEach(item => {
+                let li = document.createElement("li");
+                li.className="item";
+                li.textContent=`${item.itemName} - ₹${item.price}`;
+                list.appendChild(li);
+                
+            });
+
+
+        }
+        function UpdateTotal(){
+            document.getElementById("totalPrice").textContent=`Total: ₹${total}`;
+        }
+    </script>
+</body>
+</html>

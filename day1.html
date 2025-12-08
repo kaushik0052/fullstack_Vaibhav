@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="Task_1_Portfolio.css">
+</head>
+
+<body>
+    <header class="heading">
+        <h1>Vaibhav Kaushik</h1>
+        <p>Aspiring Front-End Developer</p>
+    </header>
+
+    <section class="visual_container">
+        <img src="vaibhav photo 2.1.jpg" alt="Profile Picture">
+        <p>Welcome to my portfolio website. Here you can find my projects, skills, and experience.</p>
+    </section>
+
+    <section class="about">
+        <h2>About Me</h2>
+        <p>I am a passionate web developer with experience in creating dynamic and responsive websites. My skills
+            include HTML, CSS, JavaScript, and modern frameworks.</p>
+    </section>
+
+    <aside class="sider">
+        <h2>Contacts</h2>
+        <ul>
+            <li>Email: vaibhavpandit0052@gmail.com</li>
+            <li>Phone: +91 8307952099</li>
+            <li>LinkedIn: linkedin.com/in/vaibhav-kaushik-b47912289/</li>
+        </ul>
+
+        <h2>Skills</h2>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+            <li>Express</li>
+            <li>MongoDB</li>
+            <li>AWS</li>
+        </ul>
+    </aside>
+
+    <section class="education">
+        <h2>Education</h2>
+        <hr>
+        <div class="education-card">
+            <h3>B.tech in Computer Science</h3>
+            <strong> GLA University</strong><br>
+            <span>2023 - 2027</span>
+            <p>Graduated Magna Cum Laude with a focus on software engineering and web development. Relevant coursework
+                included Data Structures, Algorithms, Database Systems, and Human-Computer Interaction.</p>
+        </div>
+        <div class="education-card">
+            <h3>Web Development Bootcamp</h3>
+            <strong>Online Academy</strong><br>
+            <span>2024</span>
+            <p>Completed an intensive bootcamp covering full-stack web development, including MERN stack and deployment.
+            </p>
+        </div>
+    </section>
+
+    <section class="projects">
+        <h2>Projects</h2>
+        <hr>
+        <div class="project-card">
+            <h3> Learning Management System</h3>
+            <ul>
+                <li>Implemented using React and Node.js</li>
+                <li>Features user authentication and RESTful API</li>
+            </ul>
+        </div>
+        <div class="project-card">
+            <h3>Project Title 2</h3>
+            <p>Description of project 2.</p>
+            <ul>
+                <li>Responsive design with CSS Grid and Flexbox</li>
+                <li>Integrated third-party APIs for data fetching</li>
+            </ul>
+        </div>
+        <div class="project-card">
+            <h3>Portfolio Website</h3>
+            <p>Personal website to showcase my skills and projects.</p>
+            <ul>
+                <li>Built with HTML, CSS, and JavaScript</li>
+                <li>Deployed on GitHub Pages</li>
+            </ul>
+        </div>
+        <div class="project-card">
+            <h3>Task Manager App</h3>
+            <p>A web application to manage daily tasks and to-dos.</p>
+            <ul>
+                <li>Developed with MERN stack</li>
+                <li>Includes user registration and task categorization</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="certifications">
+        <h2>Certifications</h2>
+        <hr>
+        <ul>
+            <li>AWS Cloud Computing - Technical Guftgu</li>
+            <li>Microsoft Power BI - Infosys Springboard</li>
+            <li>Developing IoT Applications - Cisco ThingQbator </li>
+        </ul>
+    </section>
+
+    <section class="hobbies">
+        <h2>Hobbies & Interests</h2>
+        <hr>
+        <ul>
+            <li>Coding challenges and hackathons</li>
+            <li>Open-source contributions</li>
+            <li>Photography</li>
+            <li>Traveling</li>
+        </ul>
+    </section>
+
+</body>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #fafafa;
+    color: #222;
+    line-height: 1.6;
+}
+
+/* Header */
+.heading {
+    background: #4f46e5;
+    color: #fff;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.heading h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Visual Intro */
+.visual_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+.visual_container img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.visual_container p {
+    font-size: 1.1rem;
+    max-width: 400px;
+}
+
+/* Sections */
+section,
+.sider {
+    background: #fff;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    max-width: 900px;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+section h2,
+.sider h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #4f46e5;
+}
+
+section p {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Sidebar */
+.sider ul {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.sider li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #444;
+}
+
+.sider li::before {
+    content: "•";
+    color: #4f46e5;
+    margin-right: 0.5rem;
+}
+
+/* Cards (education & projects) */
+.education-card,
+.project-card {
+    background: #fafafa;
+    border-left: 4px solid #4f46e5;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.education-card h3,
+.project-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.education-card strong {
+    color: #4f46e5;
+}
+
+.education-card span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.project-card ul {
+    margin-left: 1rem;
+    list-style: disc;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    background: #4f46e5;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+    .visual_container {
+        flex-direction: column;
+        text-align:center;
+    }
+
+}
+</style>
+
+</html>
