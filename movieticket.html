@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .seat{
+            width: 45px;
+            height: 45px;
+            margin: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+        }
+        .selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #seatsContainer {
+            margin-top: 20px;
+        }
+
+        #summary {
+            font-size: 18px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Movie Seat Booking</h2>
+    <div id="seatcontainer"></div>
+
+    <div id="summary">
+        <p>Total Seats Selected: <span id="totalSeats">0</span></p>
+        <p>Total Price: ₹<span id="totalPrice">0</span></p>
+    </div>
+
+    <script>
+        let seatPrice = 150;
+        let selectedSeats = [];
+        
+        let container = document.getElementById("seatcontainer");
+        for(let i = 1; i<11; i++){
+            let btn = document.createElement("button");
+            btn.textContent= i;
+            btn.classList.add("seat");
+            btn.addEventListener("click",function(){
+                toggleSeat(i,btn);
+
+            });
+
+            container.appendChild(btn);
+
+        }
+        
+        function toggleSeat(seatNumber, button) {
+
+            if (selectedSeats.includes(seatNumber)) {
+                // Already selected → unselect
+                selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                button.classList.remove("selected");
+            } else {
+                // Available → select
+                selectedSeats.push(seatNumber);
+                button.classList.add("selected");
+        
+            }
+            updateSummary();
+        }
+        function updateSummary() {
+            document.getElementById("totalSeats").textContent = selectedSeats.length;
+            document.getElementById("totalPrice").textContent = selectedSeats.length * seatPrice;
+        }
+
+            
+        
+    </script>
+</body>
+</html>

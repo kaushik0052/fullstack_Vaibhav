@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Fetch</title>
+    <style>
+        .card{
+            width: 300px;
+            padding: 15px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            margin-top: 20px;
+            background: #f9f9f9;
+        }
+        .card img{
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+        .container{
+            border-radius:10px;
+            width: 350px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <h5>Data call through API</h5>
+    <div class="container"></div>
+    <button onclick="getdata()">Get Data</button>
+
+    <script>
+        function getdata() {
+
+            let work = new Promise((resolve, reject) => {
+                fetch("https://dummyjson.com/products/1")
+                    .then(response => response.json())
+                    .then(data => resolve(data))
+                    .catch(err => reject(err));
+            });
+
+            work.then(data => {
+                document.querySelector(".container").innerHTML = `
+                    <div class="card">
+                        <h3>${data.title}</h3>
+                        <img src="${data.thumbnail}" alt="Product Image">
+                        <p><b>Price:</b> $${data.price}</p>
+                        <p>${data.description}</p>
+                    </div>
+                `;
+            }).catch(err => {
+                document.querySelector(".container").innerHTML = 
+                    `<p style="color:red;">Error: ${err}</p>`;
+            });
+        }
+    </script>
+
+</body>
+</html>

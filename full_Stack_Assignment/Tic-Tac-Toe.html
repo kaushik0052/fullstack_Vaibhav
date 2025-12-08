@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tic-Tac-Toe — Vanilla JS (ES6 modular)</title>
+  <style>
+    :root{
+      --bg:#0f1724;--card:#071124;
+      --accent:#06b6d4;
+      --x:#ef4444;
+      --o:#f59e0b;
+      --muted:#9aa4b2;
+    }
+    *{
+      box-sizing:border-box;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+      background:linear-gradient(180deg,#061021,#071830);color:#e6eef6;
+    }
+    .wrap{max-width:760px;
+      margin:40px auto;
+      padding:20px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(2,6,23,0.6);
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    h1{
+      font-size:18px;
+      margin:0}
+    .meta{color:var(--muted);font-size:13px;
+    }
+
+    .board{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin:18px 0;
+    }
+    .cell{
+      aspect-ratio:1/1;
+      border-radius:10px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:48px;
+      cursor:pointer;
+      -webkit-user-select:none;
+      border:2px solid rgba(255,255,255,0.03);
+      transition:transform 120ms ease,background 120ms;
+    }
+    .cell:active{
+      transform:scale(.98);
+    }
+    .cell.disabled{
+      cursor:not-allowed;opacity:.9;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    button{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:inherit;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent),#06b6d4);
+      color:#07202a;
+      border:none;
+    }
+
+    .status{
+      font-weight:700;
+    }
+    .scoreboard{
+      display:flex;
+      gap:12px;
+      margin-top:8px;
+    }
+    .score{
+      background:rgba(255,255,255,0.02);
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:13px;
+    }
+
+    .highlight{
+      background:linear-gradient(90deg,rgba(6,182,212,0.12),rgba(111,75,200,0.06));
+      box-shadow:0 6px 18px rgba(6,182,212,0.06);
+    }
+    .win{
+      background:linear-gradient(90deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    footer{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    @media (max-width:520px){.cell{font-size:36px}}
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <header>
+      <div>
+        <h1>Tic-Tac-Toe</h1>
+        <div class="meta">Turn-based, modular ES6 code — two players (X / O)</div>
+      </div>
+
+      <div class="controls">
+        <div class="status" id="status">Loading...</div>
+        <button id="undoBtn" title="Undo last move">Undo</button>
+        <button id="restartBtn" class="btn-primary">Restart</button>
+      </div>
+    </header>
+
+    <section aria-label="Tic tac toe board">
+      <div id="board" class="board" role="grid" aria-label="Tic tac toe grid"></div>
+    </section>
+
+    <div class="scoreboard" aria-hidden="false">
+      <div class="score">X: <span id="scoreX">0</span></div>
+      <div class="score">O: <span id="scoreO">0</span></div>
+      <div class="score">Draws: <span id="scoreD">0</span></div>
+    </div>
+
+    <p class="small">Click any cell to place your mark. Game detects wins, draws, and allows undo + restart. Keyboard accessible.</p>
+
+    <footer>Built with vanilla JavaScript (ES6 modules in a single file). Accessible and mobile friendly.</footer>
+  </main>
+
+  <script type="module">
+    // ----------------
+    // Game logic module
+    // ----------------
+    const Game = (() => {
+      const WINLINES = [
+        [0,1,2],[3,4,5],[6,7,8], 
+        [0,3,6],[1,4,7],[2,5,8], 
+        [0,4,8],[2,4,6] 
+      ];
+
+      function create(){
+        return {
+          board: Array(9).fill(null),
+          turn: 'X',
+          history: [],
+          scores: { X: 0, O: 0, D: 0 },
+          over: false
+        };
+      }
+
+      function makeMove(state, index){
+        if(state.over) return state;
+        if(state.board[index] !== null) return state;
+        const newState = JSON.parse(JSON.stringify(state));
+        newState.board[index] = state.turn;
+        newState.history.push(index);
+        newState.turn = state.turn === 'X' ? 'O' : 'X';
+        // check win/draw
+        const winner = getWinner(newState.board);
+        if(winner){ newState.over = true; newState.winner = winner; newState.scores[winner] += 1; }
+        else if(isDraw(newState.board)){ newState.over = true; newState.winner = null; newState.scores.D += 1; }
+        return newState;
+      }
+
+      function undo(state){
+        if(state.history.length === 0) return state;
+        const newState = JSON.parse(JSON.stringify(state));
+        const last = newState.history.pop();
+        newState.board[last] = null;
+        newState.over = false;
+        delete newState.winner;
+        newState.turn = newState.turn === 'X' ? 'O' : 'X';
+        return newState;
+      }
+
+      function getWinner(board){
+        for(const line of WINLINES){
+          const [a,b,c] = line;
+          if(board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
+        }
+        return null;
+      }
+
+      function winningLine(board){
+        for(const line of WINLINES){
+          const [a,b,c] = line;
+          if(board[a] && board[a] === board[b] && board[a] === board[c]) return line;
+        }
+        return null;
+      }
+
+      function isDraw(board){
+        return board.every(cell => cell !== null) && !getWinner(board);
+      }
+
+      return { create, makeMove, undo, getWinner, winningLine, isDraw };
+    })();
+
+    // ----------------
+    // UI module
+    // ----------------
+    const UI = (() => {
+      const boardEl = document.getElementById('board');
+      const statusEl = document.getElementById('status');
+      const scoreX = document.getElementById('scoreX');
+      const scoreO = document.getElementById('scoreO');
+      const scoreD = document.getElementById('scoreD');
+      const restartBtn = document.getElementById('restartBtn');
+      const undoBtn = document.getElementById('undoBtn');
+
+      function init(onCellClick, onRestart, onUndo){
+        // create 9 cells
+        boardEl.innerHTML = '';
+        for(let i=0;i<9;i++){
+          const cell = document.createElement('button');
+          cell.className = 'cell';
+          cell.setAttribute('role','gridcell');
+          cell.setAttribute('aria-label', `Cell ${i+1}`);
+          cell.dataset.index = i;
+          cell.addEventListener('click', ()=> onCellClick(i));
+          cell.addEventListener('keydown', (e)=>{
+            if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onCellClick(i); }
+          });
+          boardEl.appendChild(cell);
+        }
+
+        restartBtn.addEventListener('click', onRestart);
+        undoBtn.addEventListener('click', onUndo);
+      }
+
+      function render(state){
+        const cells = boardEl.querySelectorAll('.cell');
+        cells.forEach((el, idx) => {
+          const val = state.board[idx];
+          el.textContent = val || '';
+          el.classList.toggle('disabled', !!val || state.over);
+          el.classList.remove('highlight');
+          el.style.color = val === 'X' ? 'var(--x)' : val === 'O' ? 'var(--o)' : '';
+        });
+
+        if(state.over){
+          const winner = state.winner;
+          if(winner){
+            statusEl.textContent = `${winner} wins!`;
+            const line = Game.winningLine(state.board);
+            if(line){ line.forEach(i => cells[i].classList.add('highlight')); }
+          } else {
+            statusEl.textContent = 'Draw';
+          }
+        } else {
+          statusEl.textContent = `${state.turn}'s turn`;
+        }
+
+        scoreX.textContent = state.scores.X;
+        scoreO.textContent = state.scores.O;
+        scoreD.textContent = state.scores.D;
+      }
+
+      function resetBoardVisuals(){
+        const cells = boardEl.querySelectorAll('.cell');
+        cells.forEach(c => { c.textContent = ''; c.classList.remove('highlight'); c.classList.remove('disabled'); c.style.color=''; });
+      }
+
+      return { init, render, resetBoardVisuals };
+    })();
+
+    // ----------------
+    // App (glue)
+    // ----------------
+    const App = (() => {
+      let state = Game.create();
+
+      function start(){
+        UI.init(handleCell, handleRestart, handleUndo);
+        UI.render(state);
+        // keyboard shortcut: R to restart, U to undo
+        window.addEventListener('keydown', (e)=>{
+          if(e.key.toLowerCase() === 'r') handleRestart();
+          if(e.key.toLowerCase() === 'u') handleUndo();
+        });
+      }
+
+      function handleCell(index){
+        if(state.over) return;
+        state = Game.makeMove(state, index);
+        UI.render(state);
+      }
+
+      function handleRestart(){
+        const newState = Game.create();
+        // carry over scores
+        newState.scores = state.scores;
+        state = newState;
+        UI.resetBoardVisuals();
+        UI.render(state);
+      }
+
+      function handleUndo(){
+        state = Game.undo(state);
+        UI.render(state);
+      }
+
+      return { start };
+    })();
+
+    App.start();
+  </script>
+</body>
+</html>

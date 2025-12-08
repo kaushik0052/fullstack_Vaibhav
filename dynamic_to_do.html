@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+    body {
+        font-family: Arial, sans-serif;
+        background: #eef2f3;
+        padding: 40px;
+    }
+    .todo-box {
+        width: 350px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+    }
+    #taskInput {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+    }
+    button {
+        padding: 8px 14px;
+        margin-top: 10px;
+        background: #007bff;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+    li {
+        background: #f7f7f7;
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn {
+        margin-left: 5px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    .edit-btn {
+        background: #ff9800;
+        color: white;
+    }
+    .delete-btn {
+        background: #d9534f;
+        color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="todo-box">
+        <h2>Todo List</h2>
+
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <button onclick="addTask()">Add Task</button>
+
+        <ul id="taskList"><li>
+                <span class="taskText">hahaha</span>
+                <button onclick="enableEdit(0)">Edit</button>
+                <button onclick="deleteTask(0)">Delete</button>
+            </li><li>
+                <span class="taskText">new task</span>
+                <button onclick="enableEdit(1)">Edit</button>
+                <button onclick="deleteTask(1)">Delete</button>
+            </li></ul>
+    </div>
+    <script>
+        
+        let tasks = JSON.parse(localStorage.getItem("todo")) || [];
+
+        function saveData() {
+            localStorage.setItem("todo", JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let taskText = input.value.trim();
+
+            if (taskText === "") return;
+
+            tasks.push(taskText);
+            saveData();
+            showTasks();
+            input.value = "";
+        }
+
+        function showTasks() {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            tasks.forEach((task, index) => {
+                let li = document.createElement("li");
+
+                li.innerHTML = `
+                    <span class="taskText">${task}</span>
+                    <button onclick="enableEdit(${index})">Edit</button>
+                    <button onclick="deleteTask(${index})">Delete</button>
+                `;
+
+                taskList.appendChild(li);
+            });
+        }
+
+        function enableEdit(index) {
+            let taskList = document.getElementById("taskList");
+            let li = taskList.children[index];
+
+            let currentText = tasks[index];
+
+            // Replace text with input box + save button
+            li.innerHTML = `
+                <input type="text" id="editInput${index}" value="${currentText}" class="editBox">
+                <button onclick="saveEdit(${index})">Save</button>
+                <button onclick="showTasks()">Cancel</button>
+            `;
+        }
+
+        function saveEdit(index) {
+            let newValue = document.getElementById(`editInput${index}`).value.trim();
+
+            if (newValue === "") return;
+
+            tasks[index] = newValue;
+            saveData();
+            showTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            saveData();
+            showTasks();
+        }
+
+        showTasks();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            text-align: center;
+
+        }
+        #container{
+            border: 2px solid rgb(138,37,37);
+            margin: 5px;
+            height: 200px;
+            width: 300px;
+            margin-left: 650px;
+            
+        }
+    </style>
+</head>
+<body>
+    <h5>Data call through Promises</h5>
+    <div id="container">
+
+    </div>
+    <button onclick="getData()">Get Data</button>
+    <div id="err">
+        Error is loding......
+    </div>
+    
+
+    <script>
+        function getData(){
+
+        
+        let api = "https://dummyjson.com/products/2";
+        let mypromise = new Promise((resolve,reject)=>{
+            fetch(api)
+            .then(res => res.json())
+            .then(info => resolve(info))
+            .catch(error => reject(error))
+        })
+
+        mypromise 
+            .then(key => {
+            document.getElementById('container').innerHTML = `
+                        <div class="content">
+                        ${key.id}<br>
+                        ${key.title}<br>
+                        ${key.description}<br>
+                        <div>
+                        `
+
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }
+
+        
+        
+
+        
+    </script>
+    
+
+</body>
+</html>
